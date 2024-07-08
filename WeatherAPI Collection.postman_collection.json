@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "74133967-34df-4707-a431-a242e1a95351",
+		"name": "WeatherAPI Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3798074"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.headers.add({\r",
+							"    key: 'x-api-key',\r",
+							"    value: '99eb239ca6dcf0e223fde29018b49334'\r",
+							"});\r",
+							"\r",
+							"pm.variables.set(\"requestTimestamp\", new Date().toISOString());\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Status kodunu kontrol etme\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// JSON yanıtının belirli alanlara sahip olduğunu kontrol etme\r",
+							"pm.test(\"Response has main, description, and temp fields\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"main\");\r",
+							"    pm.expect(jsonData).to.have.property(\"description\");\r",
+							"    pm.expect(jsonData).to.have.property(\"temp\");\r",
+							"});\r",
+							"\r",
+							"// Yanıt zamanını kontrol etme\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"// Yanıtın JSON formatında olduğunu kontrol etme\r",
+							"pm.test(\"Response is JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8086/weather?city=Ankara",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"weather"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Ankara"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
